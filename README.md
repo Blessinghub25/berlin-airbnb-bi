@@ -2,7 +2,9 @@
 
 **Self-initiated Data Analytics & Business Intelligence project · 2026**
 
-> Analysing 6,329 real Airbnb listings across Berlin to surface pricing intelligence, host concentration patterns, and neighbourhood-level market segmentation — structured as a client-ready Power BI report.
+> Analysing 9,240 real Airbnb listings across 112 Berlin neighbourhoods to surface pricing intelligence, host concentration patterns, and neighbourhood-level market segmentation — structured as a client-ready interactive dashboard.
+
+🔗 **[View Live Dashboard](https://blessinghub25.github.io/berlin-airbnb-bi)**
 
 ---
 
@@ -10,12 +12,13 @@
 
 | Metric | Value |
 |--------|-------|
-| Listings analysed | 6,329 across 23 neighbourhoods |
-| Berlin median nightly price | €132.35 |
-| Highest-premium neighbourhood | Brunnenstr. Süd @ €181/night (+37% vs median) |
-| Most listings | Alexanderplatz (712 listings @ €169.37/night) |
+| Listings analysed | 9,240 across 112 neighbourhoods |
+| Berlin median nightly price | €104 |
+| Highest-premium neighbourhood | West 5 @ €382/night (+267% vs median) |
+| Most listings | Alexanderplatz (712 listings @ €169/night) |
 | Multi-listing hosts | **60.6%** of hosts manage more than one listing |
-| Data source | Inside Airbnb (insideairbnb.com) — open dataset |
+| Average rating | 4.76 ★ |
+| Data source | Inside Airbnb (insideairbnb.com) — open dataset, Sept 2025 |
 
 ---
 
@@ -24,7 +27,7 @@
 ```
 berlin-airbnb/
 ├── data/
-│   └── listings.csv          # Source: Inside Airbnb Berlin (Sept 2025)
+│   └── listings.csv              # Source: Inside Airbnb Berlin (Sept 2025)
 ├── output/
 │   ├── listings_clean.csv        # Cleaned main dataset
 │   ├── neighbourhood_summary.csv # Avg price, listings, premium per area
@@ -32,9 +35,12 @@ berlin-airbnb/
 │   ├── host_detail.csv           # Top 200 hosts by portfolio size
 │   ├── room_type_summary.csv     # Pricing breakdown by room type
 │   ├── price_distribution.csv    # Price bucket distribution
-│   └── superhost_analysis.csv    # Superhost vs regular host comparison
-├── clean.py                  # Python cleaning & SQL analysis pipeline
-├── berlin_airbnb.db          # SQLite database (auto-generated)
+│   ├── superhost_analysis.csv    # Superhost vs regular host comparison
+│   └── dashboard.html            # Standalone interactive dashboard
+├── clean.py                      # Data cleaning & SQL analysis pipeline
+├── dashboard.py                  # Interactive visualisation (Plotly)
+├── berlin_airbnb.db              # SQLite database (auto-generated)
+├── index.html                    # Live dashboard (GitHub Pages)
 └── README.md
 ```
 
@@ -44,7 +50,7 @@ berlin-airbnb/
 
 - **Python / pandas** — data ingestion, cleaning, feature engineering
 - **SQL (SQLite)** — analytical queries for segmentation and aggregation
-- **Power BI** — 4-page interactive dashboard
+- **Plotly** — interactive multi-section BI dashboard
 - **Data storytelling** — findings framed as client-ready business insights
 
 ---
@@ -55,30 +61,44 @@ berlin-airbnb/
 # 1. Download listings.csv from insideairbnb.com/get-the-data (Berlin)
 # 2. Place in data/ folder
 # 3. Install dependencies
-pip install pandas numpy
+pip install pandas numpy plotly
 
-# 4. Run the pipeline
+# 4. Run the data pipeline
 python clean.py
 
-# 5. Load CSVs from /output/ into Power BI
+# 5. Build the dashboard
+python dashboard.py
+
+# 6. Open output/dashboard.html in your browser
 ```
 
 ---
 
-## Power BI Dashboard Pages
+## Dashboard Sections
 
-| Page | Content |
-|------|---------|
-| 1 — Market Overview | KPI cards, listing count by neighbourhood, map by price |
-| 2 — Pricing Intelligence | Price by neighbourhood & room type, superhost premium, price distribution |
-| 3 — Host Analysis | Multi-listing concentration, top hosts, single vs multi-listing split |
-| 4 — Recommendations | 3 client-ready business insights |
+| Section | Content |
+|---------|---------|
+| KPI Bar | Total listings, median price, avg rating, neighbourhoods, multi-host %, top premium |
+| Market Overview | Listings by neighbourhood (top 15) + Berlin map coloured by price |
+| Pricing Intelligence | Avg price by neighbourhood, price distribution, room type breakdown |
+| Host Analysis | Top 20 hosts by portfolio size, superhost vs regular comparison |
+| Business Insights | 3 client-ready insight cards with actionable findings |
+
+---
+
+## Business Insights
+
+1. **Premium Neighbourhood Opportunity** — West 5 commands a 267% price premium over Berlin median. A property there generates significantly more estimated monthly revenue than the city average.
+
+2. **Market Professionalisation** — 60.6% of Berlin hosts manage multiple listings. This is not a peer-to-peer sharing economy — it is a professionalised operator market with pricing power implications for new entrants.
+
+3. **Volume vs. Premium Trade-off** — Alexanderplatz has the most listings but at only moderate pricing. Lower-volume premium areas offer better yield with less competition.
 
 ---
 
 ## Data Source
 
-Data from **[Inside Airbnb](http://insideairbnb.com/get-the-data)** — an independent, non-commercial project that provides open Airbnb listing data for cities worldwide. Berlin dataset dated September 2025.
+Data from **[Inside Airbnb](http://insideairbnb.com/get-the-data)** — an independent, non-commercial project providing open Airbnb listing data for cities worldwide. Berlin dataset dated September 2025.
 
 ---
 
